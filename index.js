@@ -29,6 +29,4 @@ function main() {
     requestAnimationFrame(drawFrame)
 }
 
-
-  
 window.onload = main;
