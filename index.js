@@ -1,5 +1,7 @@
 function main() {
     const canvas = document.getElementById("glCanvas");
+    let rect = canvas.getBoundingClientRect()
+    console.log(rect)
     
     // Resize to current window width/height
     canvas.width = window.innerWidth
@@ -19,11 +21,11 @@ function main() {
 
         window.onresize = (evnt) => {
             canvas.width = window.innerWidth
-            canvas.height = window.innerHeight
+            canvas.height = window.innerHeight    
         }
 
         // Set clear color to black, fully opaque
-        gl.clearColor(red, 0.9, 0.0, 1.0);
+        gl.clearColor(red, 0.0, 1.0, 1.0);
         // gl.viewport(0, 0, 10, 10)
         if (red > 1.0) {
             addRed = -1
