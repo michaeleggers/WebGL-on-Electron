@@ -1,3 +1,50 @@
+const vsSource = `
+    attribute vec4 pos;
+    
+    uniform mat4 modelViewMat;
+    uniform mat4 projMat;
+
+    void main() {
+        gl_Position = projMat * modelViewMat * pos;
+    }
+`
+
+const fsSource = `
+    void main() {
+        gl_FragColor = vec4(1.0);
+    }
+`
+
+function loadShader(gl, type, source) {
+    const shader = gl.createShader(type)
+    gl.shaderSource(shader, source)
+    gl.compileShader(shader)
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        alert(`Error compiling shader: ${gl.getShaderInfoLog(shader)}`)
+        gl.deleteShader(shader)
+        return null
+    }
+
+    return shader
+}
+
+function initShaderProgram(gl, vsSource, fsSource) {
+    const vertShader = loadShader(gl, gl.VERTEX_SHADER, vsSource)
+    const fragShader = loadShader(gl, gl.FRAGMENT_SHADER, fsSource)
+
+    const shaderProgram = gl.createProgram()
+    gl.attachShader(shaderProgram, vertShader)
+    gl.attachShader(shaderProgram, fragShader)
+    gl.linkProgram(shaderProgram)
+
+    if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
+        alert(`Unable to init shader program: ${gl.getProgramInfoLog(shaderProgram)}`)
+        return null
+    }
+
+    return shaderProgram
+}
+
 function main() {
     const canvas = document.getElementById("glCanvas");
     let rect = canvas.getBoundingClientRect()
@@ -14,6 +61,9 @@ function main() {
       alert("Unable to initialize WebGL. Your browser or machine may not support it.");
       return;
     }    
+    
+    // Init Shader Programs
+    const rectShaderProgram = initShaderProgram(gl, vsSource, fsSource)
 
     let red = 0.0
     let addRed = 1
