@@ -64,6 +64,17 @@ function main() {
     
     // Init Shader Programs
     const rectShaderProgram = initShaderProgram(gl, vsSource, fsSource)
+    const programInfo = {
+        program: rectShaderProgram,
+        attribLocations: {
+            vertexPosition: gl.getAttributeLocation(rectShaderProgram, 'pos')
+        },
+        uniformLocations: {
+            projectionMatrix: gl.getUniformLocation(rectShaderProgram, 'projMat'),
+            modelViewMatrix: gl.getUniformLocation(rectShaderProgram, 'modelViewMat')
+        }
+    }
+
 
     let red = 0.0
     let addRed = 1
